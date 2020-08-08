@@ -1,3 +1,4 @@
+# python -m pip install pygame
 import pygame
 
 pygame.init()
