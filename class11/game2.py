@@ -30,6 +30,10 @@ while not gameover:
                 x -= 5
             elif event.key == pygame.K_RIGHT:
                 x += 5
+            elif event.key == pygame.K_UP:
+                y -= 5
+            elif event.key == pygame.K_DOWN:
+                y += 5
 
     gameDisplay.fill(background_color)
 
