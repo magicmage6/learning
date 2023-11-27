@@ -15,15 +15,13 @@ public:
 
   BigInt(const string& s);
 
-  ostream& print(ostream& out) const;
-
   void operator+=(const BigInt &b);
 
   void operator*=(const BigInt &b);
 
   void operator/=(const BigInt &b);
 
-  bool is_negative() const;
+  int compare(const BigInt&b) const;
 
 private:
   bool _is_negative;

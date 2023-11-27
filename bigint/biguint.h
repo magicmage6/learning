@@ -16,8 +16,6 @@ public:
 
   int size() const;
 
-  ostream& print(ostream& out) const;
-
   int operator[](int i) const;
 
   void operator+=(const BigUint& b);
@@ -33,6 +31,8 @@ public:
   void rs(int n);
 
   void ls(int n);
+
+  int compare(const BigUint& b) const;
 
 private:
   vector<int> _data;

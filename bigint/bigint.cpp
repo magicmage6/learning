@@ -29,22 +29,11 @@ BigInt::BigInt(const string& s) : BigUint(remove_sign(s)) {
   }
 }
 
-ostream& BigInt::print(ostream &out) const {
-  if (_is_negative) {
-    out << '-';
-  }
-  return BigUint::print(out);
-}
-
-bool BigInt::is_negative() const {
-    return _is_negative;
-}
-
 void BigInt::operator+=(const BigInt &b) {
     BigUint a1 = *this;
     BigUint b1 = b;
     if (b._is_negative) {
-      if (is_negative()) {
+      if (_is_negative) {
         _is_negative = true;
         BigUint::operator+=(b1);
       } else {
@@ -57,7 +46,7 @@ void BigInt::operator+=(const BigInt &b) {
         }
       }
     } else {
-      if (is_negative()) {
+      if (_is_negative) {
         if (a1 > b1) {
           _is_negative = true;
           BigUint::operator-=(b1);
@@ -74,13 +63,35 @@ void BigInt::operator+=(const BigInt &b) {
 
 void BigInt::operator*=(const BigInt &b) {
     if (*this == BigInt(0))
-      *this = BigInt(0);
+      return;
     if (b == BigInt(0))
       *this = BigInt(0);
     _is_negative = (_is_negative != b._is_negative);
     BigUint::operator*=((BigUint)b);
 }
 
+void BigInt::operator/=(const BigInt &b) {
+    if (*this == BigInt(0))
+      return;
+    _is_negative = (_is_negative != b._is_negative);
+    BigUint::operator/=((BigUint)b);
+}
+
+int BigInt::compare(const BigInt &b) const {
+  if (_is_negative) {
+    if (b._is_negative) {
+      return -BigUint::compare((BigUint)b);
+    } else {
+      return -1;
+    }
+  } else {
+    if (b._is_negative) {
+      return 1;
+    } else {
+      return BigUint::compare((BigUint)b);
+    }
+  }
+}
 
 BigInt operator+ (const BigInt& a, const BigInt& b) {
   BigInt sum = a;
@@ -94,37 +105,28 @@ BigInt operator* (const BigInt& a, const BigInt& b) {
   return product;
 }
 
+BigInt operator/ (const BigInt& a, const BigInt& b) {
+  BigInt quotation = a;
+  quotation /= b;
+  return quotation;
+}
+
 ostream& operator<< (std::ostream& stream, const BigInt& b){
-   return b.print(stream);
+   if (b < BigInt(0)) {
+    stream << '-';
+  }
+  stream << (BigUint)b;
+  return stream;
 }
 
 bool operator== (const BigInt& a, const BigInt& b) {
-  if (a.is_negative() != b.is_negative()) {
-    return false;
-  }
-  return (BigUint)a == (BigUint)b;
+  return (a.compare(b) == 0);
 }
 
 bool operator< (const BigInt& a, const BigInt& b) {
-  if (a.is_negative()) {
-    if (b.is_negative())
-      return (BigUint) a > (BigUint) b;
-    else
-      return true;
-  }
-  if (b.is_negative())
-    return false;
-  return (BigUint) a < (BigUint) b;
+  return (a.compare(b) < 0);
 }
 
 bool operator> (const BigInt& a, const BigInt& b) {
-  if (a.is_negative()) {
-    if (b.is_negative())
-      return (BigUint) a < (BigUint) b;
-    else
-      return false;
-  }
-  if (b.is_negative())
-    return true;
-  return (BigUint) a > (BigUint) b;
+  return (a.compare(b) > 0);
 }

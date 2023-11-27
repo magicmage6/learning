@@ -41,17 +41,6 @@ int BigUint::size() const {
   return i + 1;
 }
 
-
-ostream& BigUint::print(ostream &out) const {
-  if (size() == 0) {
-    out << '0';
-  }
-  for (int i = size() - 1; i >= 0; --i) {
-    out << _data[i];
-  } 
-  return out;
-}
-
 int BigUint::operator[](const int i) const {
   if (i >= _data.size() || i < 0)
     return 0;
@@ -145,6 +134,14 @@ void BigUint::ls(const int n) {
   }
 }
 
+int BigUint::compare(const BigUint& b) const {
+  if (*this > b)
+    return 1;
+  if (*this < b)
+    return -1;
+  return 0;
+}
+
 bool operator== (const BigUint& a, const BigUint& b) {
   if (a.size() != b.size())
     return false;
@@ -228,5 +225,11 @@ BigUint operator<< (const BigUint& a, int n) {
 }
 
 ostream& operator<< (std::ostream& stream, const BigUint& b){
-   return b.print(stream);
+  if (b.size() == 0) {
+    stream << '0';
+  }
+  for (int i = b.size() - 1; i >= 0; --i) {
+    stream << b[i];
+  } 
+  return stream;
 }
