@@ -222,20 +222,20 @@ void test_big_uint() {
     cout << "======================================" << endl << endl;
 }
 
-void check_int_result(const BigInt& actual, const BigInt& expected) {
+void check_big_int_result(const BigInt& actual, const BigInt& expected) {
     base_check<BigInt>(actual, expected);
 }
 
 void test_int_constructor(const string& s, const BigInt expected) {
     BigInt n1(s);
-    check_int_result(n1, expected);
+    check_big_int_result(n1, expected);
     cout << " BitInt(" << n1 << ") = " << n1 << endl;
 }
 
 void test_int_compare(const string& a, const string &b, const int expected) {
     BigInt n1(a);
     BigInt n2(b);
-    check_int_result(n1.compare(n2), expected);
+    check_result(n1.compare(n2), expected);
     cout << " " << n1 << ".compare(" << n2 << ") = " << n1.compare(n2) << endl;
 }
 
@@ -260,9 +260,9 @@ void test_int_greater(const string& a, const string &b, const bool expected) {
     cout << " " << n1 << " > " << n2 << " " << (n1 > n2) << endl;
 }
 
-void check_int_operator_result(const BigInt& n1, const BigInt& n2, 
+void check_big_int_operator_result(const BigInt& n1, const BigInt& n2, 
     const BigInt& actual, const BigInt& expected, const string& s) {
-    check_int_result(actual, expected);
+    check_big_int_result(actual, expected);
     cout << n1 << " " << s << " " << n2 << " = " << actual << endl;
 }
 
@@ -270,30 +270,30 @@ void test_int_add(const string& a, const string& b, const string& expected) {
     BigInt n1(a);
     BigInt n2(b);
     BigInt e(expected);
-    check_int_operator_result(n1, n2, n1+n2, e, "+");
+    check_big_int_operator_result(n1, n2, n1+n2, e, "+");
     BigInt sum = n1;
     sum += n2;
-    check_int_operator_result(n1, n2, sum, e, "+");
+    check_big_int_operator_result(n1, n2, sum, e, "+");
 }
 
 void test_int_multiply(const string& a, const string& b, const string& expected) {
     BigInt n1(a);
     BigInt n2(b);
     BigInt e(expected);
-    check_int_operator_result(n1, n2, n1*n2, e, "*");
+    check_big_int_operator_result(n1, n2, n1*n2, e, "*");
     BigInt product = n1;
     product *= n2;
-    check_int_operator_result(n1, n2, product, e, "*");
+    check_big_int_operator_result(n1, n2, product, e, "*");
 }
 
 void test_int_division(const string& a, const string& b, const string& expected) {
     BigInt n1(a);
     BigInt n2(b);
     BigInt e(expected);
-    check_int_operator_result(n1, n2, n1/n2, e, "/");
+    check_big_int_operator_result(n1, n2, n1/n2, e, "/");
     BigInt quotation = n1;
     quotation /= n2;
-    check_int_operator_result(n1, n2, quotation, e, "/");
+    check_big_int_operator_result(n1, n2, quotation, e, "/");
 }
 
 void test_big_int() {
