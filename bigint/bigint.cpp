@@ -61,6 +61,10 @@ void BigInt::operator+=(const BigInt &b) {
     }
 }
 
+void BigInt::operator-=(const BigInt &b) {
+  (*this) += b * BigInt(-1);
+}
+
 void BigInt::operator*=(const BigInt &b) {
     if (*this == BigInt(0))
       return;
@@ -97,6 +101,10 @@ BigInt operator+ (const BigInt& a, const BigInt& b) {
   BigInt sum = a;
   sum += b;
   return sum;
+}
+
+BigInt operator- (const BigInt& a, const BigInt& b) {
+  return a + b * BigInt(-1);
 }
 
 BigInt operator* (const BigInt& a, const BigInt& b) {

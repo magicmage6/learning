@@ -276,6 +276,16 @@ void test_int_add(const string& a, const string& b, const string& expected) {
     check_big_int_operator_result(n1, n2, sum, e, "+");
 }
 
+void test_int_subtraction(const string& a, const string& b, const string& expected) {
+    BigInt n1(a);
+    BigInt n2(b);
+    BigInt e(expected);
+    check_big_int_operator_result(n1, n2, n1-n2, e, "-");
+    BigInt remain = n1;
+    remain -= n2;
+    check_big_int_operator_result(n1, n2, remain, e, "-");
+}
+
 void test_int_multiply(const string& a, const string& b, const string& expected) {
     BigInt n1(a);
     BigInt n2(b);
@@ -365,7 +375,7 @@ void test_big_int() {
     test_int_greater("-223", "-134", false);
     cout << "======================================" << endl << endl;
 
-    cout << "=========Testing add==================" << endl;
+    cout << "=========Testing int add==============" << endl;
     test_int_add("20", "0", "20");
     test_int_add("1", "301", "302");
     test_int_add("3", "5", "8");
@@ -381,6 +391,22 @@ void test_big_int() {
     test_int_add("-303", "301", "-2");
     test_int_add("-303", "303", "0");
     test_int_add("-3", "-5", "-8");
+    cout << "======================================" << endl << endl;
+
+    cout << "=========Testing int subtraction======" << endl;
+    test_int_subtraction("20", "0", "20");
+    test_int_subtraction("1", "301", "-300");
+    test_int_subtraction("3", "5", "-2");
+    test_int_subtraction("3", "2", "1");
+    test_int_subtraction("6", "3", "3");
+    test_int_subtraction("9000", "300", "8700");
+    test_int_subtraction("894567", "2311", "892256");
+    test_int_subtraction("894567983718299491823", "239994567888998889988", "654573415829300601835");
+    test_int_subtraction("-20", "0", "-20");
+    test_int_subtraction("1", "-301", "302");
+    test_int_subtraction("-3", "5", "-8");
+    test_int_subtraction("-3", "-2", "-1");
+    test_int_subtraction("6", "-3", "9");
     cout << "======================================" << endl << endl;
 
     cout << "=========Testing int multiply=========" << endl;

@@ -17,6 +17,8 @@ public:
 
   void operator+=(const BigInt &b);
 
+  void operator-=(const BigInt &b);
+
   void operator*=(const BigInt &b);
 
   void operator/=(const BigInt &b);
@@ -36,6 +38,8 @@ bool operator< (const BigInt& a, const BigInt& b);
 bool operator> (const BigInt& a, const BigInt& b);
 
 BigInt operator+ (const BigInt& a, const BigInt& b);
+
+BigInt operator- (const BigInt& a, const BigInt& b);
 
 BigInt operator* (const BigInt& a, const BigInt& b);
 
