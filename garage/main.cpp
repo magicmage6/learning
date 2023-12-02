@@ -5,14 +5,12 @@ using namespace std;
 
 class Car {
   public:
-    Car(int lp, int size = 1) {
-      _lp = lp;
-      _size = size;
-    }
+    Car(int lp, int size = 1) : _lp(lp), _size(size) {}
 
     int plate() {
       return _lp;
     }
+
     int size() {
       return _size;
     }
@@ -44,24 +42,9 @@ class Garage {
     int parkVehicle(VehicleType v) {
       int lot_no = -1;
       for(int i = 0; i < _spots; ++i) {
-        bool available = true;
-        for (int j = i; j < i + v.size(); ++j) {
-            if (j >= _spots) {
-                return -1;
-            }
-            if (_storage[i].plate() != -1) {
-                available = false;
-                break;
-            }
-        }
-        if (available) {
-          lot_no = i;
-          break;
-        }
-      }
-      if (lot_no != -1) {
-        for (int i = lot_no; i < lot_no + v.size(); ++i) {
-          _storage[i] = v;
+        if (_available(i, v.size())) {
+          _addVehicle(i, v);
+          return i;
         }
       }
       return lot_no;
@@ -73,15 +56,8 @@ class Garage {
       int lot_no = -1;
       for(int i = 0; i < _spots; ++i) {
         if(_storage[i].plate() == v.plate()) {
-          lot_no = i;
-          break;
-        }
-      }
-      if (lot_no != -1) {
-        for (int i = lot_no; i < _spots; ++i) {
-          if (_storage[i].plate() == v.plate()) {
-            _storage[i] = VehicleType(-1);
-          }
+          _addVehicle(i, VehicleType(-1, v.size()));
+          return i;
         }
       }
       return -1;
@@ -101,6 +77,24 @@ class Garage {
 }
 
 private:
+    // Check if a lot started from lot_no is available for a vehicle size.
+    // Check for several lot, if any of them is not empty, or is over the
+    // garage capacity, it is not available.
+    bool _available(int lot_no, int size) {
+      for (int i = lot_no; i < lot_no + size; ++i) {
+        if (i >= _spots || _storage[i].plate() != -1)
+          return false;
+      }
+      return true;
+    }
+
+    // Add vehicle to a lot starting from lot_no with the size of the 
+    // vehicle.
+    void _addVehicle(int lot_no, VehicleType v) {
+      for (int i = lot_no; i < lot_no + v.size() && i < _spots; ++i)
+        _storage[i] = v;
+    }
+
     int _spots;
     vector<VehicleType> _storage;
 };
